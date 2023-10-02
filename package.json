@@ -1,0 +1,19 @@
+{
+  "name": "acs3310-final",
+  "version": "1.0.0",
+  "description": "[School Assignment] Final Assessment in Writing JS Libs class",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/lodash": "^4.14.199",
+    "date-fns": "^2.30.0",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}
