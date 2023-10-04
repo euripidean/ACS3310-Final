@@ -1,32 +1,40 @@
-/// <reference path="../json.d.ts" />
+interface SalesData {
+  id: number;
+  first_name: string;
+  last_name: string;
+  purchased: string;
+  lastpayment: string;
+  phone: string;
+  make: string;
+  model: string;
+  city: string;
+}
 
-// fetch the data from data.json
 const data = require("../data.json") as SalesData[];
-const { capitalize } = require("lodash");
+const { startCase } = require("lodash");
 const { formatDistanceToNow } = require("date-fns");
 
 // Challenge 1
-function presentName(firstName: string, lastName: string): string {
-  return `${capitalize(firstName)} ${capitalize(lastName)}`;
+function capitalizeStr(value: string): string {
+  return startCase(value);
 }
 
 // Challenge 2
 function purchaseDate(date: string): string {
   const options = { month: "long", day: "numeric", year: "numeric" } as const;
   const formattedDate = new Date(date).toLocaleDateString("en-US", options);
-  return `Purchased: ${formattedDate}`;
+  return `${formattedDate}`;
 }
 
 // Challenge 3
 function showLastPaymentDistance(date: string): string {
   const formattedDate = new Date(date);
   const distance = formatDistanceToNow(formattedDate, { addSuffix: true });
-  return `Last payment: ${distance}`;
+  return `${distance}`;
 }
 
 // Challenge 4
 export function readPhoneNumber(phone: string | number): string {
-  // strip out any non-numerical characters if phone number is a string
   if (typeof phone === "string") {
     phone = phone.replace(/\D/g, "");
   }
@@ -41,16 +49,19 @@ export function readPhoneNumber(phone: string | number): string {
   return `(${areaCode}) ${firstThree}-${lastFour}`;
 }
 
+// output all data
 function formatData() {
-  const formattedData = data.map((item) => {
-    const { first_name, last_name, purchased, lastpayment, phone } = item;
-    const name = presentName(first_name, last_name);
-    const date = purchaseDate(purchased);
-    const distance = showLastPaymentDistance(lastpayment);
-    const phoneNumber = readPhoneNumber(phone);
-    return { name, date, distance, phoneNumber };
+  data.forEach((item) => {
+    console.log(
+      `${capitalizeStr(item.first_name)} ${capitalizeStr(item.last_name)}\n
+      ${capitalizeStr(item.make)} ${capitalizeStr(item.model)}\n
+      Purchased: ${purchaseDate(item.purchased)}\n
+      Last Payment: ${showLastPaymentDistance(item.lastpayment)}\n
+      Phone: ${readPhoneNumber(item.phone)}\n
+      City: ${capitalizeStr(item.city)}
+      =====================\n`
+    );
   });
-  console.log(formattedData);
 }
 
 formatData();
