@@ -34,18 +34,17 @@ function showLastPaymentDistance(date: string): string {
 }
 
 // Challenge 4
-export function readPhoneNumber(phone: string | number): string {
-  if (typeof phone === "string") {
-    phone = phone.replace(/\D/g, "");
-  }
-  const phoneString = phone.toString();
-  // if phone number is not ten characters or digits, return error
+function formatPhoneNumber(phone: string | number): string {
+  const phoneString = String(phone).replace(/\D/g, "");
+
   if (phoneString.length !== 10) {
     throw new Error("Phone number must be 10 digits");
   }
+
   const areaCode = phoneString.slice(0, 3);
   const firstThree = phoneString.slice(3, 6);
   const lastFour = phoneString.slice(6, 10);
+
   return `(${areaCode}) ${firstThree}-${lastFour}`;
 }
 
@@ -53,15 +52,18 @@ export function readPhoneNumber(phone: string | number): string {
 function formatData() {
   data.forEach((item) => {
     console.log(
-      `${capitalizeStr(item.first_name)} ${capitalizeStr(item.last_name)}\n
+      `\n${capitalizeStr(item.first_name)} ${capitalizeStr(item.last_name)}\n
       ${capitalizeStr(item.make)} ${capitalizeStr(item.model)}\n
       Purchased: ${purchaseDate(item.purchased)}\n
       Last Payment: ${showLastPaymentDistance(item.lastpayment)}\n
-      Phone: ${readPhoneNumber(item.phone)}\n
+      Phone: ${formatPhoneNumber(item.phone)}\n
       City: ${capitalizeStr(item.city)}
-      =====================\n`
+      \n`
     );
   });
 }
 
-formatData();
+// Check in the terminal by uncommenting this line and running the file.
+// formatData();
+
+export { formatPhoneNumber };
